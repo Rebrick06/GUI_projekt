@@ -9,7 +9,7 @@ class AppTheme {
   static const double paddingMedium = 16.0;
   static const double paddingLarge = 24.0;
   static const double paddingHuge = 32.0;
-  
+ 
   // Font styles below // 
   static TextStyle titleFont = GoogleFonts.getFont('Inter');
   static TextStyle textFont = GoogleFonts.getFont('Montserrat'); 
