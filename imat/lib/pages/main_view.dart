@@ -21,7 +21,7 @@ class MainView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Color.fromRGBO(176, 230, 185, 1), 
+            color: AppTheme.mainColor, 
             height: 100,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -37,7 +37,10 @@ class MainView extends StatelessWidget {
           
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(AppTheme.paddingSmall),
+              padding: const EdgeInsets.only(
+                right: AppTheme.paddingSmall, 
+                left: AppTheme.paddingSmall,
+              ),
               child: GridView.builder(
                 itemCount: products.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,7 +59,7 @@ class MainView extends StatelessWidget {
           ),
           
           Container(
-            color: Color.fromRGBO(176, 230, 185, 1), 
+            color: AppTheme.mainColor, 
             height: 20,
             width: double.infinity,
             // FOoooooT

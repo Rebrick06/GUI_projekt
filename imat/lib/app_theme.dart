@@ -16,4 +16,9 @@ class AppTheme {
 
   // ColorScheme below // 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
+
+  static Color darkColor = Color.fromRGBO(14,106,28, 1);
+  static Color mainColor = Color.fromRGBO(23, 177, 46, 1);
+  static Color brightColor = Color.fromRGBO(176, 230, 185, 1);
+
 }
