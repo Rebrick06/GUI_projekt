@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 
-class Homebrewedappbar extends StatelessWidget implements PreferredSizeWidget{
-  const Homebrewedappbar({super.key});
+class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
+  const BaseAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
