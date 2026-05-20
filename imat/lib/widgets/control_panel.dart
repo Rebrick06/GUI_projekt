@@ -15,9 +15,7 @@ class ControlPanel extends StatelessWidget {
         padding: EdgeInsets.all(20),
         width: width, 
         color: AppTheme.brightColor,
-        child: Column(children: [
-          FilterControl()
-        ],)
+        child: FilterControl()
       )
     );
   }
