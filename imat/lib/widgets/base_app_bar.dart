@@ -17,7 +17,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
             style: AppTheme.textFont,
           ),
         ),
-      ]
+      ],
     );
   }
 

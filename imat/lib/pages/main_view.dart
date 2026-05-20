@@ -11,7 +11,7 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var iMat = context.watch<ImatDataHandler>();
+    var iMat = context.read<ImatDataHandler>();
     var products = iMat.selectProducts;
 
     final size = MediaQuery.of(context).size;
