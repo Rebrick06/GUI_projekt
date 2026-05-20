@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
+import 'package:imat_app/widgets/filter_control.dart';
 
 class ControlPanel extends StatelessWidget {
   final double width;
@@ -15,7 +16,7 @@ class ControlPanel extends StatelessWidget {
         width: width, 
         color: AppTheme.brightColor,
         child: Column(children: [
-          Placeholder()
+          FilterControl()
         ],)
       )
     );
