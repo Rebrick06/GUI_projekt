@@ -8,13 +8,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppTheme.mainColor,
-      title: Text("hehe test title placholder hehe michael jackson he he"),
+      title: Text("IMats produkter för faan", style: AppTheme.titleFont),
       actions: [
         TextButton(
           onPressed: () {}, 
           child: Text(
-            "IMats produkter för faan",
-            style: AppTheme.titleFont
+            "DETTA ÄR EN KASSA (trust)",
+            style: AppTheme.textFont,
           ),
         ),
       ]
