@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/widgets/Shopping_cart.dart';
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:imat_app/widgets/control_panel.dart';
 import 'package:imat_app/widgets/product_card.dart';
@@ -21,42 +22,45 @@ class MainView extends StatelessWidget {
     // Den kan vara enklare att förstå.
     // Denna version har fördelen att kort skapas on-demand.
     return Scaffold(
-
       appBar: const BaseAppBar(),
 
-      body: Column( 
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              ControlPanel(width),
-            ],
-          ),
+          Column(children: [ControlPanel(width)]),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: AppTheme.paddingSmall, 
-                left: AppTheme.paddingSmall,
-              ),
-              child: GridView.builder(
-                itemCount: products.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, // 4 kolumner
-                  crossAxisSpacing: AppTheme.paddingSmall,
-                  mainAxisSpacing: AppTheme.paddingSmall,
-                  childAspectRatio: 4 / 3,
-                ),
-                itemBuilder: (context, index) {
-                  final product = products[index];
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: AppTheme.paddingSmall,
+                      left: AppTheme.paddingSmall,
+                    ),
+                    child: GridView.builder(
+                      itemCount: products.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4, // 4 kolumner
+                            crossAxisSpacing: AppTheme.paddingSmall,
+                            mainAxisSpacing: AppTheme.paddingSmall,
+                            childAspectRatio: 4 / 3,
+                          ),
+                      itemBuilder: (context, index) {
+                        final product = products[index];
 
-                  return ProductCard(product, iMat);
-                },
-              ),
+                        return ProductCard(product, iMat);
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(flex: 1, child: ShoppingCart(10)),
+              ],
             ),
           ),
-          
           Container(
-            color: AppTheme.mainColor, 
+            color: AppTheme.mainColor,
             height: 20,
             width: double.infinity,
             // FOoooooT
