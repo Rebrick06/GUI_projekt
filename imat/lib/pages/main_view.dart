@@ -59,6 +59,7 @@ class MainView extends StatelessWidget {
               ],
             ),
           ),
+
           Container(
             color: AppTheme.mainColor,
             height: 20,
