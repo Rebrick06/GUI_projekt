@@ -25,28 +25,38 @@ class _FilterControlState extends State<FilterControl>{
           Wrap(
             spacing: AppTheme.paddingSmall,
             runSpacing: AppTheme.paddingSmall,
-
+            alignment: WrapAlignment.center,
             children: (
               showAll ? ProductCategory.values: 
               ProductCategory.values.take(5)).map((category){
-              return ActionChip(
-                label: Text(category.name,),
-                backgroundColor: AppTheme.darkColor,
-                onPressed: () {
+                return ActionChip(
+                  label: Text(
+                    category.name, 
+                    style: TextStyle(color: AppTheme.whiteColor), 
+                  ),
+                  labelStyle: AppTheme.textFont,
+                  backgroundColor: AppTheme.darkColor,
+                  onPressed: () {
 
-                },
-              );
-            }).toList(),
+                  },
+                );
+              }).toList(),
           ),
+          SizedBox(height: AppTheme.paddingMediumSmall,),
           Center(
             child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: AppTheme.darkColor,
+                foregroundColor: AppTheme.whiteColor,
+                padding: EdgeInsets.all(AppTheme.paddingSmall),
+              ),
               onPressed: () {
                 setState(() {
                   showAll = !showAll;
                 });
               },
               child: Text(
-                showAll ? "USH FY BORT!" : "JAG VILL HA MEERRR!",
+                showAll ? "Visa färre" : "Visa fler",
                 style: AppTheme.textFont,
               ),
             ),
