@@ -15,46 +15,44 @@ class _FilterControlState extends State<FilterControl>{
   @override
   Widget build(BuildContext context) {
 
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(AppTheme.paddingSmall),
-        child: Column(
-          children: [
-            Text("Kategorier", style: AppTheme.titleFont),
-          
+    return Padding(
+      padding: EdgeInsets.all(AppTheme.paddingSmall),
+      child: Column(
+        children: [
+          Text("Kategorier", style: AppTheme.titleFont),
+        
 
-            Wrap(
-              spacing: AppTheme.paddingSmall,
-              runSpacing: AppTheme.paddingSmall,
+          Wrap(
+            spacing: AppTheme.paddingSmall,
+            runSpacing: AppTheme.paddingSmall,
 
-              children: (
-                showAll ? ProductCategory.values: 
-                ProductCategory.values.take(5)).map((category){
-                return ActionChip(
-                  label: Text(category.name),
-                  backgroundColor: AppTheme.darkColor,
-                  onPressed: () {
-
-                  },
-                );
-              }).toList(),
-            ),
-            Center(
-              child: TextButton(
+            children: (
+              showAll ? ProductCategory.values: 
+              ProductCategory.values.take(5)).map((category){
+              return ActionChip(
+                label: Text(category.name,),
+                backgroundColor: AppTheme.darkColor,
                 onPressed: () {
-                  setState(() {
-                    showAll = !showAll;
-                  });
+
                 },
-                child: Text(
-                  showAll ? "USH FY BORT!" : "JAG VILL HA MEERRR!",
-                ),
+              );
+            }).toList(),
+          ),
+          Center(
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  showAll = !showAll;
+                });
+              },
+              child: Text(
+                showAll ? "USH FY BORT!" : "JAG VILL HA MEERRR!",
+                style: AppTheme.textFont,
               ),
             ),
-          ],
-        ),
-      )
+          ),
+        ],
+      ),
     );
-    
   }
 }
