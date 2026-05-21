@@ -55,7 +55,7 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(flex: 1, child: ShoppingPanel(10)),
+                Expanded(flex: 1, child: ShoppingPanel(10, iMat)),
               ],
             ),
           ),
