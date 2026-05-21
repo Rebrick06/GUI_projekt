@@ -20,5 +20,6 @@ class AppTheme {
   static Color darkColor = Color.fromRGBO(14,106,28, 1);
   static Color mainColor = Color.fromRGBO(23, 177, 46, 1);
   static Color brightColor = Color.fromRGBO(176, 230, 185, 1);
+  static Color whiteColor = Color.fromRGBO(255, 255, 255, 1);
 
 }
