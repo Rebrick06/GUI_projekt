@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/widgets/base_app_bar.dart';
-import 'package:imat_app/app_theme.dart';
 
 class MainCheckout extends StatelessWidget {
   const MainCheckout({super.key}); 
@@ -11,8 +10,9 @@ class MainCheckout extends StatelessWidget {
     //var iMat = context.watch<ImatDataHandler>();
     //var products = iMat.selectProducts;
 
-    final size = MediaQuery.of(context).size;
-    double width = size.width * 0.5;
+    // To get size, width, height and so on from tab size.
+    // final size = MediaQuery.of(context).size;
+    // double width = size.width * 0.5;
 
     // Det finns en version utan gridDelegate nedan.
     // Den kan vara enklare att förstå.
