@@ -4,6 +4,7 @@ import 'package:imat_app/model/imat/shopping_cart.dart';
 import 'package:imat_app/widgets/shopping_panel.dart' hide ShoppingCart;
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
+class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   const BaseAppBar({super.key});
 
   @override
@@ -40,3 +41,4 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }}
+}
