@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
+import 'package:imat_app/model/imat/shopping_cart.dart';
+import 'package:imat_app/widgets/shopping_panel.dart' hide ShoppingCart;
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
   const BaseAppBar({super.key});
@@ -10,6 +12,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
       backgroundColor: AppTheme.mainColor,
       title: Text("IMats produkter för faan", style: AppTheme.titleFont),
       actions: [
+<<<<<<< Updated upstream
         ActionChip(
           label: Text(
             "Shopping cart", 
@@ -24,6 +27,11 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
               )
             );
           },
+=======
+        TextButton(
+          onPressed: () {},
+          child: Text("DETTA ÄR EN KASSA (trust)", style: AppTheme.textFont),
+>>>>>>> Stashed changes
         ),
       ],
     );
@@ -31,4 +39,4 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
-}
+}}

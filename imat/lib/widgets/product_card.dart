@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/widgets/add_to_cart_buton.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
   final ImatDataHandler iMat;
 
   const ProductCard(this.product, this.iMat, {super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +30,7 @@ class ProductCard extends StatelessWidget {
               '${product.price.toStringAsFixed(2)} ${product.unit}',
               style: const TextStyle(fontSize: 14),
             ),
+            AddToCartButon(product, iMat),
           ],
         ),
       ),
