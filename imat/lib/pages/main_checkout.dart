@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:imat_app/widgets/base_app_bar.dart';
-import 'package:imat_app/app_theme.dart';
 
 class MainCheckout extends StatelessWidget {
   const MainCheckout({super.key}); 
