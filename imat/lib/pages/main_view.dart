@@ -17,54 +17,86 @@ class MainView extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     double width = size.width * 0.5;
+    double height = size.height * 0.75;
 
     // Det finns en version utan gridDelegate nedan.
     // Den kan vara enklare att förstå.
     // Denna version har fördelen att kort skapas on-demand.
     return Scaffold(
+      //header
       appBar: const BaseAppBar(),
-
+      //Body
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Column(children: [ControlPanel(width)]),
           Expanded(
             child: Row(
               children: [
+                // Scrollbar vänstersida
                 Expanded(
                   flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: AppTheme.paddingSmall,
-                      left: AppTheme.paddingSmall,
-                    ),
-                    child: GridView.builder(
-                      itemCount: products.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, // 4 kolumner
-                            crossAxisSpacing: AppTheme.paddingSmall,
-                            mainAxisSpacing: AppTheme.paddingSmall,
-                            childAspectRatio: 4 / 3,
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: AppTheme.paddingMediumSmall,
+                            bottom: AppTheme.paddingMediumSmall,
+                            ),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              width: width,
+                              child: ControlPanel(),
+                            ),
                           ),
-                      itemBuilder: (context, index) {
-                        final product = products[index];
+                        ),
+                      ),
 
-                        return ProductCard(product, iMat);
-                      },
-                    ),
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                          right: AppTheme.paddingSmall,
+                          left: AppTheme.paddingSmall,
+                        ),
+                        sliver: SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final product = products[index];
+                              return ProductCard(product, iMat);
+                            },
+                            childCount: products.length,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                crossAxisSpacing: AppTheme.paddingSmall,
+                                mainAxisSpacing: AppTheme.paddingSmall,
+                                childAspectRatio: 4 / 3,
+                              ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Expanded(flex: 1, child: ShoppingPanel(10, iMat)),
+
+                // Fast kassa
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: AppTheme.paddingSmall,
+                  ),
+                  child: SizedBox(
+                    height: height,
+                    child: ShoppingPanel(400, iMat),
+                  ),
+                ),
               ],
             ),
           ),
 
+          // TODO: MOVE FOOTER OUT
           Container(
             color: AppTheme.mainColor,
             height: 20,
             width: double.infinity,
-            // FOoooooT
           ),
         ],
       ),

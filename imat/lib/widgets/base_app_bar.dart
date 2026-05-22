@@ -10,7 +10,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       backgroundColor: AppTheme.mainColor,
       title: Text("IMats produkter för faan", style: AppTheme.titleFont,),
-      
       actions: [
         ActionChip(
           label: Text(
@@ -21,9 +20,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
           backgroundColor: AppTheme.darkColor,
           onPressed: () {
             runApp(
-              MaterialApp(
-                home: MainCheckout()
-              )
+                MaterialApp(
+                  home: MainCheckout()
+                )
             );
           },
         ),

@@ -29,7 +29,8 @@ class _FilterControlState extends State<FilterControl>{
 
               final categories = showAll ? ProductCategory.values:
                                 ProductCategory.values.take(6).toList();
-
+              // Ni har ingen aning om hur många gånger jag skrivit om HELA den här jag haaaatar den här delen omg asså wowe wad jag inte gillar denna häringa koden längre. //
+              // Tror den är rätt så nice nu dock så de ä ju bra de I guess //
               return Wrap(
                 spacing: spacing,
                 runSpacing: spacing,
@@ -45,7 +46,7 @@ class _FilterControlState extends State<FilterControl>{
                           vertical: 12,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(AppTheme.radius / 1.5),
                         ),
                       ),
                       onPressed: () {
@@ -149,6 +150,9 @@ class _FilterControlState extends State<FilterControl>{
                 backgroundColor: AppTheme.darkColor,
                 foregroundColor: AppTheme.whiteColor,
                 padding: EdgeInsets.all(AppTheme.paddingSmall),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(AppTheme.radius / 1.5),
+                ),
               ),
               onPressed: () {
                 setState(() {

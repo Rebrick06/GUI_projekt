@@ -9,6 +9,9 @@ class AppTheme {
   static const double paddingMedium = 16.0;
   static const double paddingLarge = 24.0;
   static const double paddingHuge = 32.0;
+
+  // borderRadius below //
+  static const double radius = 12;
  
   // Font styles below // 
   static TextStyle titleFont = GoogleFonts.getFont('Inter');
@@ -17,6 +20,7 @@ class AppTheme {
   // ColorScheme below // 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
 
+  // Main colors below //
   static Color darkColor = Color.fromRGBO(14,106,28, 1);
   static Color mainColor = Color.fromRGBO(23, 177, 46, 1);
   static Color brightColor = Color.fromRGBO(176, 230, 185, 1);

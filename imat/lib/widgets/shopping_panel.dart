@@ -11,7 +11,7 @@ class ShoppingPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(AppTheme.radius),
       child: Container(
         padding: EdgeInsets.all(20),
         width: width,
