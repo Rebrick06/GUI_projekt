@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imat_app/app_theme.dart';
 
 class MainCheckout extends StatelessWidget {
   const MainCheckout({super.key}); 
@@ -92,7 +93,7 @@ class MainCheckout extends StatelessWidget {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             // Change to correct color 
-                            backgroundColor: Colors.green.shade200, 
+                            backgroundColor: AppTheme.mainColor, 
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -122,7 +123,7 @@ class MainCheckout extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white, 
+                  color: AppTheme.whiteColor, 
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(color: Colors.grey.shade400),
                 ),
@@ -214,7 +215,7 @@ class MainCheckout extends StatelessWidget {
                       height: 60, 
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green.shade700,
+                          backgroundColor: AppTheme.darkColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
