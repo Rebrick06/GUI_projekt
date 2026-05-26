@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/product.dart';
+import 'package:imat_app/model/imat/product_detail.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/widgets/add_to_cart_buton.dart';
 import 'package:imat_app/widgets/back_button.dart';
@@ -68,18 +69,20 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProductDetail? detail = iMat.getDetail(product);
+
     return Stack(
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Scrollable content ──────────────────────────────────
+            // ── Scrollable content ──────────────────────────────
             SingleChildScrollView(
               padding: const EdgeInsets.all(AppTheme.paddingLarge),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Left column ─────────────────────────────────
+                  // ── Left column ───────────────────────────────
                   SizedBox(
                     width: 220,
                     child: Column(
@@ -89,7 +92,9 @@ class ProductDetailPage extends StatelessWidget {
                           height: 220,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black12),
-                            borderRadius: BorderRadius.circular(AppTheme.radius),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radius,
+                            ),
                           ),
                           clipBehavior: Clip.hardEdge,
                           child: iMat.getImage(product),
@@ -122,11 +127,55 @@ class ProductDetailPage extends StatelessWidget {
 
                   const SizedBox(width: AppTheme.paddingLarge),
 
-                  // ── Right column ─────────────────────────────────
+                  // ── Right column ──────────────────────────────
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        // Description
+                        if (detail != null &&
+                            detail.description.isNotEmpty) ...[
+                          _InfoBox(
+                            title: 'Beskrivning',
+                            content: detail.description,
+                          ),
+                          const SizedBox(height: AppTheme.paddingSmall),
+                        ],
+
+                        // Contents / ingredients
+                        if (detail != null && detail.contents.isNotEmpty) ...[
+                          _InfoBox(title: 'Innehåll', content: detail.contents),
+                          const SizedBox(height: AppTheme.paddingSmall),
+                        ],
+
+                        // Origin + Brand side by side
+                        if (detail != null &&
+                            (detail.origin.isNotEmpty ||
+                                detail.brand.isNotEmpty)) ...[
+                          Row(
+                            children: [
+                              if (detail.origin.isNotEmpty)
+                                Expanded(
+                                  child: _InfoBox(
+                                    title: 'Ursprungsland',
+                                    content: detail.origin,
+                                  ),
+                                ),
+                              if (detail.origin.isNotEmpty &&
+                                  detail.brand.isNotEmpty)
+                                const SizedBox(width: AppTheme.paddingSmall),
+                              if (detail.brand.isNotEmpty)
+                                Expanded(
+                                  child: _InfoBox(
+                                    title: 'Varumärke',
+                                    content: detail.brand,
+                                  ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(height: AppTheme.paddingSmall),
+                        ],
+
                         _InfoBox(title: 'Kategori', content: _categoryName),
                         const SizedBox(height: AppTheme.paddingSmall),
                         _InfoBox(
@@ -139,11 +188,6 @@ class ProductDetailPage extends StatelessWidget {
                           title: 'Ekologisk',
                           content: product.isEcological ? 'Ja ✓' : 'Nej',
                         ),
-                        const SizedBox(height: AppTheme.paddingSmall),
-                        _InfoBox(
-                          title: 'Artikelnummer',
-                          content: product.productId.toString(),
-                        ),
                       ],
                     ),
                   ),
@@ -151,20 +195,18 @@ class ProductDetailPage extends StatelessWidget {
               ),
             ),
 
-            // ── Tillbaka button ─────────────────────────────────────
+            // ── Tillbaka button ─────────────────────────────────
             SizedBox(
               child: Padding(
-                padding: EdgeInsetsGeometry.only(
+                padding: const EdgeInsets.only(
                   top: AppTheme.paddingMedium,
                   left: AppTheme.paddingLarge,
                 ),
                 child: ImatBackButton(onBack),
-              )
+              ),
             ),
           ],
-
-        )
-        
+        ),
       ],
     );
   }

@@ -15,18 +15,23 @@ class DeliveryInfoPage extends StatefulWidget {
 class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
   int _currentStep = 0;
 
-  final List<TextEditingController> _controllers =
-      List.generate(8, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    8,
+    (_) => TextEditingController(),
+  );
 
   final List<Map<String, String>> _fields = const [
-    {'label': 'Förnamn',            'hint': 'Skriv ditt förnamn här'},
-    {'label': 'Efternamn',          'hint': 'Skriv ditt efternamn här'},
-    {'label': 'Telefonnummer',      'hint': 'Skriv ditt telefonnummer här'},
-    {'label': 'Mobiltelefonnummer', 'hint': 'Skriv ditt mobiltelefonnummer här'},
-    {'label': 'Email',              'hint': 'Skriv din email här'},
-    {'label': 'Adress',             'hint': 'Skriv din adress här'},
-    {'label': 'Postkod',            'hint': 'Skriv din postkod här'},
-    {'label': 'Postadress',         'hint': 'Skriv din postadress här'},
+    {'label': 'Förnamn', 'hint': 'Skriv ditt förnamn här'},
+    {'label': 'Efternamn', 'hint': 'Skriv ditt efternamn här'},
+    {'label': 'Telefonnummer', 'hint': 'Skriv ditt telefonnummer här'},
+    {
+      'label': 'Mobiltelefonnummer',
+      'hint': 'Skriv ditt mobiltelefonnummer här',
+    },
+    {'label': 'Email', 'hint': 'Skriv din email här'},
+    {'label': 'Adress', 'hint': 'Skriv din adress här'},
+    {'label': 'Postkod', 'hint': 'Skriv din postkod här'},
+    {'label': 'Postadress', 'hint': 'Skriv din postadress här'},
   ];
 
   bool get _isLastStep => _currentStep == _fields.length - 1;
@@ -45,10 +50,8 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
       );
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => const SelectDeliveryTimePage(),
-          ),
-        );
+        MaterialPageRoute(builder: (context) => const SelectDeliveryTimePage()),
+      );
     } else {
       setState(() => _currentStep++);
     }
@@ -106,13 +109,17 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                     Expanded(
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 250),
-                        transitionBuilder: (child, animation) => SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(0.15, 0),
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: FadeTransition(opacity: animation, child: child),
-                        ),
+                        transitionBuilder:
+                            (child, animation) => SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(0.15, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              ),
+                            ),
                         child: _FieldCard(
                           key: ValueKey(_currentStep),
                           label: _fields[_currentStep]['label']!,
@@ -137,8 +144,9 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                                   vertical: AppTheme.paddingMedium,
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(AppTheme.radius),
+                                  borderRadius: BorderRadius.circular(
+                                    AppTheme.radius,
+                                  ),
                                 ),
                               ),
                               onPressed: _previous,
@@ -163,13 +171,16 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                                 vertical: AppTheme.paddingMedium,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(AppTheme.radius),
+                                borderRadius: BorderRadius.circular(
+                                  AppTheme.radius,
+                                ),
                               ),
                             ),
                             onPressed: _next,
                             child: Text(
-                              _isLastStep ? 'Fortsätt till leveranstid' : 'Nästa →',
+                              _isLastStep
+                                  ? 'Fortsätt till leveranstid'
+                                  : 'Nästa →',
                               style: AppTheme.textFont.copyWith(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -211,9 +222,10 @@ class _StepIndicator extends StatelessWidget {
               duration: const Duration(milliseconds: 200),
               height: 6,
               decoration: BoxDecoration(
-                color: isDone || isActive
-                    ? AppTheme.darkColor
-                    : AppTheme.whiteColor,
+                color:
+                    isDone || isActive
+                        ? AppTheme.darkColor
+                        : AppTheme.whiteColor,
                 borderRadius: BorderRadius.circular(3),
               ),
             ),

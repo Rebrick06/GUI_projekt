@@ -16,7 +16,6 @@ class MainCheckout extends StatelessWidget {
 
       body: Column(
         children: [
-
           // MAIN CONTENT
           Expanded(
             child: Padding(
@@ -24,13 +23,11 @@ class MainCheckout extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   // LEFT COLUMN
                   Expanded(
                     flex: 3,
                     child: ListView(
                       children: [
-
                         const Text(
                           'Varukorg',
                           style: TextStyle(
@@ -50,7 +47,6 @@ class MainCheckout extends StatelessWidget {
 
                         // TODO:
                         // CartItemCard här
-
                         const SizedBox(height: 32),
 
                         const Text(
@@ -64,7 +60,6 @@ class MainCheckout extends StatelessWidget {
                         const SizedBox(height: 16),
 
                         // Cart item här
-
                         const SizedBox(height: 32),
 
                         const Text(
@@ -78,7 +73,6 @@ class MainCheckout extends StatelessWidget {
                         const SizedBox(height: 16),
 
                         // Cart item här
-
                         const SizedBox(height: 60),
 
                         Center(
@@ -126,18 +120,11 @@ class MainCheckout extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                '25 varor',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              Text(
-                                '157,55 kr',
-                                style: TextStyle(fontSize: 18),
-                              ),
+                              Text('25 varor', style: TextStyle(fontSize: 18)),
+                              Text('157,55 kr', style: TextStyle(fontSize: 18)),
                             ],
                           ),
 
@@ -169,14 +156,8 @@ class MainCheckout extends StatelessWidget {
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'lådor',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                '9,00 kr',
-                                style: TextStyle(fontSize: 20),
-                              ),
+                              Text('lådor', style: TextStyle(fontSize: 20)),
+                              Text('9,00 kr', style: TextStyle(fontSize: 20)),
                             ],
                           ),
 
@@ -218,8 +199,8 @@ class MainCheckout extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DeliveryInfoPage(),
+                                    builder:
+                                        (context) => const DeliveryInfoPage(),
                                   ),
                                 );
                               },
