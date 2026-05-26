@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/pages/product_detail_page.dart';
 import 'package:imat_app/widgets/add_to_cart_buton.dart';
 
 class ProductCard extends StatelessWidget {
@@ -12,26 +13,35 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.paddingSmall),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(child: iMat.getImage(product)),
-            Text(
-              product.name,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: AppTheme.paddingSmall),
-            Text(
-              '${product.price.toStringAsFixed(2)} ${product.unit}',
-              style: const TextStyle(fontSize: 14),
-            ),
-            AddToCartButon(product, iMat),
-          ],
+    return GestureDetector(
+      onTap:
+          () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => ProductDetailPage(product, iMat)),
+          ),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.paddingSmall),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(child: iMat.getImage(product)),
+              Text(
+                product.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: AppTheme.paddingSmall),
+              Text(
+                '${product.price.toStringAsFixed(2)} ${product.unit}',
+                style: const TextStyle(fontSize: 14),
+              ),
+              AddToCartButon(product, iMat),
+            ],
+          ),
         ),
       ),
     );
