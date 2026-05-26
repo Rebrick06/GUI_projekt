@@ -3,6 +3,7 @@ import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/pages/product_detail_page.dart';
+import 'package:imat_app/widgets/base_footer.dart';
 import 'package:imat_app/widgets/shopping_panel.dart';
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:imat_app/widgets/control_panel.dart';
@@ -114,11 +115,8 @@ class _MainViewState extends State<MainView> {
             ),
           ),
 
-          Container(
-            color: AppTheme.mainColor,
-            height: 20,
-            width: double.infinity,
-          ),
+          // FOOTER HEHEHEHE
+          BaseFooter(),
         ],
       ),
     );

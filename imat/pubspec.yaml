@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  footer:
   provider: ^6.1.5
   http: ^1.6.0  
 

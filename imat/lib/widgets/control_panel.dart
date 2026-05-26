@@ -15,5 +15,5 @@ class ControlPanel extends StatelessWidget {
         child: FilterControl()
       )
     );
-  }
+  } 
 }

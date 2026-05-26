@@ -1,6 +1,8 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/product.dart';
+import 'package:imat_app/model/imat_data_handler.dart';
 
 class FilterControl extends StatefulWidget {
   const FilterControl({super.key});
@@ -14,6 +16,7 @@ class _FilterControlState extends State<FilterControl>{
 
   @override
   Widget build(BuildContext context) {
+      final iMat = context.read<ImatDataHandler>();
 
     return Padding(
       padding: EdgeInsets.all(AppTheme.paddingSmall),
@@ -28,41 +31,72 @@ class _FilterControlState extends State<FilterControl>{
               final itemWidth = (constraints.maxWidth - (spacing * 2)) / 3;
 
               final categories = showAll ? ProductCategory.values:
-                                ProductCategory.values.take(6).toList();
+                                ProductCategory.values.take(5).toList();
               // Ni har ingen aning om hur många gånger jag skrivit om HELA den här jag haaaatar den här delen omg asså wowe wad jag inte gillar denna häringa koden längre. //
               // Tror den är rätt så nice nu dock så de ä ju bra de I guess //
               return Wrap(
                 spacing: spacing,
                 runSpacing: spacing,
-                children: categories.map((category) {
-                  return SizedBox(
+                children: [
+                  SizedBox(
                     width: itemWidth,
                     child: TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: AppTheme.darkColor,
                         foregroundColor: AppTheme.whiteColor,
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 12,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppTheme.radius / 1.5),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radius / 1.5,
+                          ),
                         ),
                       ),
                       onPressed: () {
-
+                        iMat.selectAllProducts();
                       },
                       child: Text(
-                        category.name,
+                        'Alla',
                         textAlign: TextAlign.center,
-                        softWrap: true,
                         style: AppTheme.textFont.copyWith(
                           color: AppTheme.whiteColor,
                         ),
                       ),
                     ),
-                  );
-                }).toList(),  
+                  ),
+                  ...categories.map((category) {
+                    return SizedBox(
+                      width: itemWidth,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: AppTheme.darkColor,
+                          foregroundColor: AppTheme.whiteColor,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppTheme.radius / 1.5),
+                          ),
+                        ),
+                        onPressed: () {
+                          final filter = iMat.findProductsByCategory(category);
+                          iMat.selectSelection(filter);
+                        },
+                        child: Text(
+                          category.name,
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                          style: AppTheme.textFont.copyWith(
+                            color: AppTheme.whiteColor,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),  
+                ]
               );
             },
           ),
