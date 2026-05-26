@@ -20,6 +20,11 @@ class _MainViewState extends State<MainView> {
   Product? _selectedProduct;
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
     var products = iMat.selectProducts;
@@ -40,9 +45,9 @@ class _MainViewState extends State<MainView> {
                   flex: 2,
                   child:
                       _selectedProduct == null
-                          // Product grid
                           ? CustomScrollView(
                             slivers: [
+                              // ── Filter panel ────────────────────
                               SliverToBoxAdapter(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -57,6 +62,8 @@ class _MainViewState extends State<MainView> {
                                   ),
                                 ),
                               ),
+
+                              // ── Product grid ────────────────────
                               SliverPadding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: AppTheme.paddingSmall,
@@ -87,7 +94,6 @@ class _MainViewState extends State<MainView> {
                               ),
                             ],
                           )
-                          // Product detail
                           : ProductDetailPage(
                             product: _selectedProduct!,
                             iMat: iMat,
@@ -96,7 +102,7 @@ class _MainViewState extends State<MainView> {
                           ),
                 ),
 
-                // ── Shopping panel (always visible) ──────────────
+                // ── Shopping panel ────────────────────────────────
                 Padding(
                   padding: const EdgeInsets.only(left: AppTheme.paddingSmall),
                   child: SizedBox(
