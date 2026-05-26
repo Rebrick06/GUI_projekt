@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/pages/main_checkout.dart';
 import 'package:provider/provider.dart';
 
 class BaseAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -98,7 +99,10 @@ class _BaseAppBarState extends State<BaseAppBar> {
             ),
             backgroundColor: AppTheme.darkColor,
             onPressed: () {
-              // TODO: navigate to checkout
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) => MainCheckout()),
+              );
             },
           ),
         ),
