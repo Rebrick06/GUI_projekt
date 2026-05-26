@@ -11,7 +11,7 @@ class ImatBackButton extends StatelessWidget {
     return FloatingActionButton.extended(
       onPressed: onBack,
       backgroundColor: AppTheme.darkColor,
-      icon: const Icon(Icons.arrow_back, color: Colors.white),
+      icon: Icon(Icons.arrow_back, color: AppTheme.whiteColor),
       label: Text(
         'Tillbaka',
         style: AppTheme.textFont.copyWith(

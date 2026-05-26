@@ -161,11 +161,18 @@ class ImatDataHandler extends ChangeNotifier {
   // meddelar gränssnittet att data ändrats
   User getUser() => _user;
 
+  bool get isLoggedIn => _user.userName.isNotEmpty;
+
   void setUser(User user) async {
     _user.userName = user.userName;
     _user.password = user.password;
 
     String _ = await InternetHandler.setUser(_user);
+    notifyListeners();
+  }
+
+  void login(User user) {
+    _user = user;
     notifyListeners();
   }
 
@@ -524,6 +531,14 @@ import 'package:http/http.dart' as http;
     var favList = jsonData.map((item) => Product.fromJson(item)).toList();
     for (final product in favList) {
       _favorites[product.productId] = product;
+    }
+
+    if(_extras['users'] == null) {
+      _extras['users'] = [
+        User('admin@chalmers.se', '1234').toJson(),
+      ];
+
+      await InternetHandler.setExtras(_extras);
     }
 
     notifyListeners();

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/pages/log_in_view.dart';
 import 'package:imat_app/pages/main_checkout.dart';
+import 'package:imat_app/pages/main_view.dart';
 import 'package:provider/provider.dart';
 
 class BaseAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -25,7 +27,7 @@ class _BaseAppBarState extends State<BaseAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final iMat = context.read<ImatDataHandler>();
+    final iMat = context.watch<ImatDataHandler>();
 
     return AppBar(
       backgroundColor: AppTheme.mainColor,
@@ -38,9 +40,58 @@ class _BaseAppBarState extends State<BaseAppBar> {
         ),
       ),
       actions: [
+        // ── Sign/Log-in button ────────────────────────────
+        Padding(
+          padding: const EdgeInsets.only(right: AppTheme.paddingSmall,),
+          child: ActionChip(
+            avatar: Icon(
+              // Inloggad? Ja=person-, nej=login-icon
+              iMat.isLoggedIn? Icons.person : Icons.login,
+              color: AppTheme.whiteColor,
+            ),
+            label: Text(
+              iMat.isLoggedIn?
+                'Hej ${iMat.getCustomer().firstName} ${iMat.getCustomer().lastName}'
+                : 'Logga in',
+              style: AppTheme.textFont.copyWith(color: AppTheme.whiteColor),
+            ),
+            labelStyle: AppTheme.textFont,
+            backgroundColor: AppTheme.darkColor,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder:
+                  (context) => iMat.isLoggedIn? MainView() : LogInView(),
+                )
+              );
+            },
+
+          ),
+        ),
+        // ── Cart button ───────────────────────────────────
+        Padding(
+          padding: const EdgeInsets.only(right: AppTheme.paddingSmall),
+          child: ActionChip(
+            avatar: Icon(
+              Icons.shopping_cart, 
+              color: AppTheme.whiteColor,
+            ),
+            label: Text(
+              'Kassa',
+              style: AppTheme.textFont.copyWith(color: AppTheme.whiteColor),
+            ),
+            backgroundColor: AppTheme.darkColor,
+            onPressed: () {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) => MainCheckout()),
+              );
+            },
+          ),
+        ),
         // ── Search field ─────────────────────────────────
         SizedBox(
-          width: 320,
+          width: MediaQuery.of(context).size.width * 0.25,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             child: TextField(
@@ -86,24 +137,6 @@ class _BaseAppBarState extends State<BaseAppBar> {
                 }
               },
             ),
-          ),
-        ),
-
-        // ── Cart button ───────────────────────────────────
-        Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: ActionChip(
-            label: Text(
-              'Kassa',
-              style: AppTheme.textFont.copyWith(color: AppTheme.whiteColor),
-            ),
-            backgroundColor: AppTheme.darkColor,
-            onPressed: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) => MainCheckout()),
-              );
-            },
           ),
         ),
       ],
