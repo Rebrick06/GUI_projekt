@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 
 class ImatBackButton extends StatelessWidget {
-  const ImatBackButton({super.key});
+  final VoidCallback onBack;
+
+  const ImatBackButton(this.onBack, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: onBack,
       backgroundColor: AppTheme.darkColor,
       icon: const Icon(Icons.arrow_back, color: Colors.white),
       label: Text(
