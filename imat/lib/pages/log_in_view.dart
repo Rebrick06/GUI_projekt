@@ -210,12 +210,9 @@ class _LogInViewState extends State<LogInView> {
                         onPressed: () => _login(iMat),
                         child: Text(
                           'Logga in',
-                          style: AppTheme.textFont
-                              .copyWith(
-                            color:
-                                AppTheme.whiteColor,
-                            fontWeight:
-                                FontWeight.bold,
+                          style: AppTheme.textFont.copyWith(
+                            color: AppTheme.whiteColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -225,16 +222,9 @@ class _LogInViewState extends State<LogInView> {
 
                     Expanded(
                       child: OutlinedButton(
-                        style:
-                            OutlinedButton.styleFrom(
-                          side: BorderSide(
-                            color:
-                                AppTheme.whiteColor,
-                          ),
-                          padding:
-                              const EdgeInsets.symmetric(
-                            vertical: 16,
-                          ),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: AppTheme.darkColor,),
+                          padding: const EdgeInsets.symmetric(vertical: 16,),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -244,12 +234,9 @@ class _LogInViewState extends State<LogInView> {
                         },
                         child: Text(
                           'Skapa konto',
-                          style: AppTheme.textFont
-                              .copyWith(
-                            color:
-                                AppTheme.whiteColor,
-                            fontWeight:
-                                FontWeight.bold,
+                          style: AppTheme.textFont.copyWith( 
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
