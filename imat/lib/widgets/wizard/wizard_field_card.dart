@@ -38,10 +38,9 @@ class WizardFieldCard extends StatelessWidget {
             final field = step.fields[index];
             final controller = controllers[startIndex + index];
 
-            return Padding( // För framtida storleks skjusteringar. 
+            return Padding( 
               //Påverkar basic inmatningsfälten 
               padding: EdgeInsets.only(bottom: 0),
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

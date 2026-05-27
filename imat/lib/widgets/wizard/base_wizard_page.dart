@@ -65,8 +65,11 @@ class _BaseWizardPageState extends State<BaseWizardPage> {
 
       if (hasEmptyField) {
         setState(() {
-          errorMessage =
-              '${field.label} måste fyllas i';
+          if (field.label.contains('*')) {
+            errorMessage = '${field.label.replaceAll('*', '')} måste fyllas i';
+          } else {
+            errorMessage = '${field.label} måste fyllas i';
+          }
         });
         return;
       }
@@ -82,6 +85,7 @@ class _BaseWizardPageState extends State<BaseWizardPage> {
   @override
   Widget build(BuildContext context) {
     final field = widget.fields[widget.currentStep];
+    final size = MediaQuery.of(context).size;
 
     return Column(
       children: [
@@ -90,6 +94,7 @@ class _BaseWizardPageState extends State<BaseWizardPage> {
             padding: const EdgeInsets.all(AppTheme.paddingMedium),
             child: Container(
               padding: const EdgeInsets.all(AppTheme.paddingLarge),
+              width: size.width * 0.5,
               decoration: BoxDecoration(
                 color: AppTheme.brightColor,
                 borderRadius: BorderRadius.circular(AppTheme.radius),
@@ -111,7 +116,6 @@ class _BaseWizardPageState extends State<BaseWizardPage> {
                     child: Builder(
                       builder: (context) {
                         int startIndex = 0;
-
                         for (int i = 0; i < widget.currentStep; i++) {
                           startIndex += widget.fields[i].fields.length;
                         }
@@ -141,5 +145,4 @@ class _BaseWizardPageState extends State<BaseWizardPage> {
       ],
     );
   }
-
 }

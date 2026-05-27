@@ -55,7 +55,6 @@ class _BaseAppBarState extends State<BaseAppBar> {
                 : 'Logga in',
               style: AppTheme.textFont.copyWith(color: AppTheme.whiteColor),
             ),
-            labelStyle: AppTheme.textFont,
             backgroundColor: AppTheme.darkColor,
             onPressed: () {
               Navigator.push(
@@ -105,21 +104,19 @@ class _BaseAppBarState extends State<BaseAppBar> {
                   color: Colors.black54,
                   size: 20,
                 ),
-                suffixIcon:
-                    _searchController.text.isNotEmpty
-                        ? IconButton(
-                          icon: const Icon(
-                            Icons.clear,
-                            color: Colors.black54,
-                            size: 18,
-                          ),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() {});
-                            iMat.selectAllProducts();
-                          },
-                        )
-                        : null,
+                suffixIcon: _searchController.text.isNotEmpty ?
+                  IconButton(
+                    icon: const Icon(
+                      Icons.clear,
+                      color: Colors.black54,
+                      size: 18,
+                    ),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() {});
+                      iMat.selectAllProducts();
+                    },
+                  ) : null,
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(vertical: 0),

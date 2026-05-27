@@ -21,7 +21,7 @@ class WizardErrorBox extends StatelessWidget {
         message,
         textAlign: TextAlign.center,
         style: AppTheme.textFont.copyWith(
-          color: const Color.fromARGB(255, 193, 29, 29),
+          color: const Color.fromARGB(255, 0, 0, 0),
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -41,11 +41,33 @@ class _SignInViewState extends State<SignInView> {
     WizardField(
       label: 'Förnamn',
       fields: [
-        FieldData(hint: 'Skriv ditt förnamn här', icon: Icons.person,)
+        FieldData(
+          hint: 'Skriv ditt förnamn här', 
+          icon: Icons.person,
+        ),
+        FieldData(
+          title: 'Efternamn',
+          hint: 'Skriv ditt efternamn här', 
+          icon: Icons.person_outline,
+        ),
+        FieldData(
+          title: "E-post*",
+          hint: 'Skriv din e-post här', 
+          icon: Icons.email,
+        ),
       ],
+      validator: (controllers) {
+        final email = controllers[2].text.trim();
+
+        if (email.isEmpty) {
+          return "Du måste ange din e-mail address";
+        }
+
+        return null;
+      },
     ),
 
-    WizardField(
+    /*WizardField(
       label: 'Efternamn',
       fields: [
         FieldData(hint: 'Skriv ditt efternamn här', icon: Icons.person_outline,)
@@ -55,13 +77,10 @@ class _SignInViewState extends State<SignInView> {
     WizardField(
       label: 'E-post',
       fields: [
-        FieldData(
-          hint: 'Skriv din e-post här',
-          icon: Icons.email,
-        )
+        FieldData(hint: 'Skriv din e-post här', icon: Icons.email,),
       ]
 
-    ),
+    ), */
 
     WizardField(
       label: 'Telefonnummer',
@@ -83,7 +102,7 @@ class _SignInViewState extends State<SignInView> {
         final mobile = controllers[1].text.trim();
 
         if (phone.isEmpty && mobile.isEmpty) {
-          return "Du måste ange minst ett telefonnummer";
+          return null;
         }
 
         return null;
@@ -107,11 +126,32 @@ class _SignInViewState extends State<SignInView> {
         FieldData(
           hint: 'Skriv din adress här',
           icon: Icons.home,
-        )
+        ),
+        FieldData(
+          title: 'Postnummer',
+          hint: 'Skriv ditt postnummer här',
+          icon: Icons.local_post_office,
+        ),
+        FieldData(
+          title: 'Postort',
+          hint: 'Skriv din postort här',
+          icon: Icons.location_city,
+        ),
       ],
+      validator: (controllers) {
+        final adress = controllers[0].text.trim();
+        final postnummer = controllers[1].text.trim();
+        final postort = controllers[2].text.trim();
+
+        if (adress.isEmpty && postnummer.isEmpty && postort.isEmpty) {
+          return null;
+        }
+
+        return null;
+      },
     ),
 
-    WizardField(
+    /*WizardField(
       label: 'Postnummer',
       fields: [
         FieldData(
@@ -129,17 +169,17 @@ class _SignInViewState extends State<SignInView> {
           icon: Icons.location_city,
         )
       ]
-    ),
+    ), */
 
     WizardField(
-      label: 'Lösenord',
+      label: 'Lösenord*',
       fields: [
         FieldData(
           hint: 'Skapa ett lösenord',
           icon: Icons.lock,
           obscure: true,
         )
-      ]
+      ],
     ),
   ];
 
