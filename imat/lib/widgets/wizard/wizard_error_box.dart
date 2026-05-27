@@ -7,22 +7,24 @@ class WizardErrorBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
+      padding: EdgeInsets.only(top: AppTheme.paddingMedium,),
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: AppTheme.paddingMedium,),
+        padding: const EdgeInsets.all(AppTheme.paddingMedium),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 255, 0, 0),
+          borderRadius: BorderRadius.circular(AppTheme.radius),
+        ),
 
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: AppTheme.paddingMedium,),
-      padding: const EdgeInsets.all(AppTheme.paddingMedium),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 0, 0),
-        borderRadius: BorderRadius.circular(AppTheme.radius),
-      ),
-
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: AppTheme.textFont.copyWith(
-          color: const Color.fromARGB(255, 0, 0, 0),
-          fontWeight: FontWeight.bold,
+        child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: AppTheme.textFont.copyWith(
+            color: const Color.fromARGB(255, 0, 0, 0),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

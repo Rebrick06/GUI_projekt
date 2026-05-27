@@ -99,8 +99,7 @@ class _BaseWizardPageState extends State<BaseWizardPage> {
                 color: AppTheme.brightColor,
                 borderRadius: BorderRadius.circular(AppTheme.radius),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   Text(widget.title),
 
@@ -112,28 +111,31 @@ class _BaseWizardPageState extends State<BaseWizardPage> {
                   if (errorMessage != null)
                     WizardErrorBox(message: errorMessage!),
 
-                  Expanded(
-                    child: Builder(
-                      builder: (context) {
-                        int startIndex = 0;
-                        for (int i = 0; i < widget.currentStep; i++) {
-                          startIndex += widget.fields[i].fields.length;
-                        }
+                  Builder(
+                    builder: (context) {
+                      int startIndex = 0;
+                      for (int i = 0; i < widget.currentStep; i++) {
+                        startIndex += widget.fields[i].fields.length;
+                      }
 
-                        return WizardFieldCard(
-                          step: field,
-                          controllers: widget.controllers,
-                          startIndex: startIndex,
-                        );
-                      },
-                    ),
+                      return WizardFieldCard(
+                        step: field,
+                        controllers: widget.controllers,
+                        startIndex: startIndex,
+                      );
+                    },
                   ),
-
+                  SizedBox(height: AppTheme.paddingMedium),
                   WizardNavigationButtons(
                     showBack: widget.currentStep > 0,
                     isLastStep: widget.currentStep == widget.fields.length - 1,
                     onNext: validateCurrentStep,
-                    onBack: widget.onBack,
+                    onBack: () {
+                      setState(() {
+                        errorMessage = null;
+                      });
+                      widget.onBack();
+                    },
                     finishText: widget.finishText,
                   ),
                 ],

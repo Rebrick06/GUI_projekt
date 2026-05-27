@@ -256,6 +256,7 @@ class _SignInViewState extends State<SignInView> {
     ScaffoldMessenger.of(context,).showSnackBar(
       const SnackBar(
         content: Text('Konto skapat!',),
+        duration: Duration(seconds: 5),
       ),
     );
 
