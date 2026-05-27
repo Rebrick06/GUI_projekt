@@ -180,8 +180,7 @@ class _LogInViewState extends State<LogInView> {
                     filled: true,
                     fillColor: AppTheme.whiteColor,
                     hintText: 'Lösenord',
-                    prefixIcon:
-                        const Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.circular(
@@ -200,12 +199,8 @@ class _LogInViewState extends State<LogInView> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              AppTheme.darkColor,
-                          padding:
-                              const EdgeInsets.symmetric(
-                            vertical: 16,
-                          ),
+                          backgroundColor: AppTheme.darkColor,
+                          padding: const EdgeInsets.symmetric(vertical: 16,),
                         ),
                         onPressed: () => _login(iMat),
                         child: Text(
@@ -250,8 +245,7 @@ class _LogInViewState extends State<LogInView> {
                   onPressed: () {
                     iMat.removeExtra('users');
 
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text(
                           'Användare borttagna',
