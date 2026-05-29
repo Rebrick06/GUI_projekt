@@ -4,38 +4,30 @@ import 'package:imat_app/model/imat/customer.dart';
 import 'package:imat_app/pages/delivery_time.dart';
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:imat_app/widgets/base_footer.dart';
+import 'package:imat_app/model/imat/customer.dart';
 
 class DeliveryInfoPage extends StatefulWidget {
   const DeliveryInfoPage({super.key});
-
   @override
   State<DeliveryInfoPage> createState() => _DeliveryInfoPageState();
 }
-
 class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
   int _currentStep = 0;
-
   final List<TextEditingController> _controllers = List.generate(
     8,
     (_) => TextEditingController(),
   );
-
   final List<Map<String, String>> _fields = const [
     {'label': 'Förnamn', 'hint': 'Skriv ditt förnamn här'},
     {'label': 'Efternamn', 'hint': 'Skriv ditt efternamn här'},
     {'label': 'Telefonnummer', 'hint': 'Skriv ditt telefonnummer här'},
-    {
-      'label': 'Mobiltelefonnummer',
-      'hint': 'Skriv ditt mobiltelefonnummer här',
-    },
+    {'label': 'Mobiltelefonnummer', 'hint': 'Skriv ditt mobiltelefonnummer här'},
     {'label': 'Email', 'hint': 'Skriv din email här'},
     {'label': 'Adress', 'hint': 'Skriv din adress här'},
     {'label': 'Postkod', 'hint': 'Skriv din postkod här'},
     {'label': 'Postadress', 'hint': 'Skriv din postadress här'},
   ];
-
   bool get _isLastStep => _currentStep == _fields.length - 1;
-
   void _next() {
     if (_isLastStep) {
       final customer = Customer(
@@ -48,19 +40,20 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
         _controllers[6].text,
         _controllers[7].text,
       );
+      // Skicka kundinfo vidare till sidan för tidsval
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SelectDeliveryTimePage()),
+        MaterialPageRoute(
+          builder: (context) => SelectDeliveryTimePage(customer: customer),
+        ),
       );
     } else {
       setState(() => _currentStep++);
     }
   }
-
   void _previous() {
     if (_currentStep > 0) setState(() => _currentStep--);
   }
-
   @override
   void dispose() {
     for (final c in _controllers) {
@@ -68,7 +61,6 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
     }
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,29 +89,18 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                       ),
                     ),
                     const SizedBox(height: AppTheme.paddingMedium),
-
-                    // ── Stegindikator ──
-                    _StepIndicator(
-                      total: _fields.length,
-                      current: _currentStep,
-                    ),
+                    _StepIndicator(total: _fields.length, current: _currentStep),
                     const SizedBox(height: AppTheme.paddingLarge),
-
-                    // ── Aktivt fält ──
                     Expanded(
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 250),
-                        transitionBuilder:
-                            (child, animation) => SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(0.15, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              ),
-                            ),
+                        transitionBuilder: (child, animation) => SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0.15, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: FadeTransition(opacity: animation, child: child),
+                        ),
                         child: _FieldCard(
                           key: ValueKey(_currentStep),
                           label: _fields[_currentStep]['label']!,
@@ -128,10 +109,7 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: AppTheme.paddingLarge),
-
-                    // ── Navigeringsknappar ──
                     Row(
                       children: [
                         if (_currentStep > 0)
@@ -144,9 +122,7 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                                   vertical: AppTheme.paddingMedium,
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppTheme.radius,
-                                  ),
+                                  borderRadius: BorderRadius.circular(AppTheme.radius),
                                 ),
                               ),
                               onPressed: _previous,
@@ -160,8 +136,7 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                               ),
                             ),
                           ),
-                        if (_currentStep > 0)
-                          const SizedBox(width: AppTheme.paddingSmall),
+                        if (_currentStep > 0) const SizedBox(width: AppTheme.paddingSmall),
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -171,16 +146,12 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                                 vertical: AppTheme.paddingMedium,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  AppTheme.radius,
-                                ),
+                                borderRadius: BorderRadius.circular(AppTheme.radius),
                               ),
                             ),
                             onPressed: _next,
                             child: Text(
-                              _isLastStep
-                                  ? 'Fortsätt till leveranstid'
-                                  : 'Nästa →',
+                              _isLastStep ? 'Fortsätt till leveranstid' : 'Nästa →',
                               style: AppTheme.textFont.copyWith(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -202,13 +173,10 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
     );
   }
 }
-
 class _StepIndicator extends StatelessWidget {
   final int total;
   final int current;
-
   const _StepIndicator({required this.total, required this.current});
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -222,10 +190,7 @@ class _StepIndicator extends StatelessWidget {
               duration: const Duration(milliseconds: 200),
               height: 6,
               decoration: BoxDecoration(
-                color:
-                    isDone || isActive
-                        ? AppTheme.darkColor
-                        : AppTheme.whiteColor,
+                color: (isDone || isActive) ? AppTheme.darkColor : AppTheme.whiteColor,
                 borderRadius: BorderRadius.circular(3),
               ),
             ),
@@ -235,19 +200,16 @@ class _StepIndicator extends StatelessWidget {
     );
   }
 }
-
 class _FieldCard extends StatelessWidget {
   final String label;
   final String hint;
   final TextEditingController controller;
-
   const _FieldCard({
     super.key,
     required this.label,
     required this.hint,
     required this.controller,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -268,10 +230,7 @@ class _FieldCard extends StatelessWidget {
           child: TextField(
             controller: controller,
             autofocus: true,
-            style: AppTheme.textFont.copyWith(
-              fontSize: 15,
-              color: AppTheme.darkColor,
-            ),
+            style: AppTheme.textFont.copyWith(fontSize: 15, color: AppTheme.darkColor),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: AppTheme.textFont.copyWith(
