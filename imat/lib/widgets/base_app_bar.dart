@@ -4,6 +4,7 @@ import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/pages/log_in_view.dart';
 import 'package:imat_app/pages/main_checkout.dart';
 import 'package:imat_app/pages/main_view.dart';
+import 'package:imat_app/pages/profile_page_view.dart';
 import 'package:provider/provider.dart';
 
 class BaseAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -30,15 +31,30 @@ class _BaseAppBarState extends State<BaseAppBar> {
     final iMat = context.watch<ImatDataHandler>();
 
     return AppBar(
+
       backgroundColor: AppTheme.mainColor,
-      title: Text(
-        'IMAT',
-        style: AppTheme.titleFont.copyWith(
-          color: AppTheme.whiteColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 22,
+      // ── Title button ────────────────────────────────────
+      title: InkWell(
+        borderRadius: BorderRadius.circular(AppTheme.radius * 0.25),
+        onTap: () {
+          Navigator.pushAndRemoveUntil(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => const MainView(),
+            ),
+            (route) => false,
+          );
+        },
+        child: Text(
+          'IMAT',
+          style: AppTheme.titleFont.copyWith(
+            color: AppTheme.whiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
         ),
       ),
+
       actions: [
         // ── Sign/Log-in button ────────────────────────────
         Padding(
@@ -51,7 +67,7 @@ class _BaseAppBarState extends State<BaseAppBar> {
             ),
             label: Text(
               iMat.isLoggedIn?
-                'Hej ${iMat.getCustomer().firstName} ${iMat.getCustomer().lastName}'
+                'Hej ${iMat.getCustomerForCurrentUser().firstName} ${iMat.getCustomerForCurrentUser().lastName}'
                 : 'Logga in',
               style: AppTheme.textFont.copyWith(color: AppTheme.whiteColor),
             ),
@@ -60,7 +76,7 @@ class _BaseAppBarState extends State<BaseAppBar> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder:
-                  (context) => iMat.isLoggedIn? MainView() : LogInView(),
+                  (context) => iMat.isLoggedIn? ProfilePage() : LogInView(),
                 )
               );
             },

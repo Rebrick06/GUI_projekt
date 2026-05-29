@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:imat_app/model/category_config.dart';
 import 'package:imat_app/model/imat/credit_card.dart';
 import 'package:imat_app/model/imat/customer.dart';
 import 'package:imat_app/model/imat/order.dart';
@@ -112,15 +113,17 @@ class ImatDataHandler extends ChangeNotifier {
   // läggs den till.
   // Meddelar GUI:t att data har ändrats och uppdaterar på servern
   void toggleFavorite(Product product) {
-    var pid = product.productId;
+    final pid = product.productId;
 
     if (_favorites.containsKey(pid)) {
       _favorites.remove(pid);
-      _removeFavorite(product);
     } else {
       _favorites[pid] = product;
-      _addFavorite(product);
     }
+
+    saveFavoritesForCurrentUser();
+
+    notifyListeners();
   }
 
   CreditCard getCreditCard() => _creditCard;
@@ -171,8 +174,19 @@ class ImatDataHandler extends ChangeNotifier {
     notifyListeners();
   }
 
-  void login(User user) {
+  void login(User user) async {
     _user = user;
+    await InternetHandler.setUser(_user);
+    loadFavoritesForCurrentUser();
+    notifyListeners();
+  }
+  void logout() async{
+    _user = User('','');
+    _shoppingCart.clear();
+    _favorites.clear();
+
+    await InternetHandler.setUser(_user);
+
     notifyListeners();
   }
 
@@ -324,18 +338,18 @@ class ImatDataHandler extends ChangeNotifier {
   }
 
   void placeOrder() async {
-    await InternetHandler.placeOrder();
+    if (!isLoggedIn) return;
+
+    final order = Order(
+      DateTime.now().millisecondsSinceEpoch,
+      DateTime.now(),
+      List.from(_shoppingCart.items),
+    );
+
+    saveOrderForCurrentUser(order);
+
     _shoppingCart.clear();
-    notifyListeners();
 
-    // Reload orders
-    var response = await InternetHandler.getOrders();
-
-    //print('Orders $response');
-    var jsonData = jsonDecode(response) as List;
-
-    _orders.clear();
-    _orders.addAll(jsonData.map((item) => Order.fromJson(item)).toList());
     notifyListeners();
   }
 
@@ -384,6 +398,78 @@ class ImatDataHandler extends ChangeNotifier {
 
   void _removeFavorite(Product p) async {
     String _ = await InternetHandler.removeFavorite(p.productId);
+
+    notifyListeners();
+  }
+
+  Customer getCustomerForCurrentUser() {
+    if (!isLoggedIn) {
+      return Customer('', '', '', '', '', '', '', '');
+    }
+    final rawCustomers = _extras['customers'];
+    if (rawCustomers == null){
+      return Customer('', '', '', '', '', '', '', '');
+    }
+    final customers = Map<String, dynamic>.from(rawCustomers);
+
+    return Customer.fromJson(
+      Map<String, dynamic>.from(
+        customers[_user.userName],
+      )
+    );
+  }
+
+  void saveCustomerForCurrentUser(
+    Customer customer,
+  ) async {
+    if (!isLoggedIn) return;
+
+    final customers = Map<String, dynamic>.from(_extras['customers'] ?? {});
+
+    customers[_user.userName] = customer.toJson();
+    _extras['customers'] = customers;
+
+    await InternetHandler.setExtras(_extras);
+
+    notifyListeners();
+  }
+
+  List<Order> getOrderForCurrentUser() {
+    if (!isLoggedIn) return [];
+    final ordersMap = Map<String, dynamic>.from(
+      _extras['ordersByUser'] ?? {},
+    );
+    if (!ordersMap.containsKey(_user.userName)) {
+      return [];
+    }
+
+    final rawOrders = List.from(ordersMap[_user.userName]);
+
+    return rawOrders.map(
+      (o) => Order.fromJson(
+        Map<String, dynamic>.from(o),
+      ),
+    ).toList();
+  }
+
+  void saveOrderForCurrentUser(
+    Order order,
+  ) async {
+    if (!isLoggedIn) return;
+
+    final ordersMap = Map<String, dynamic>.from(
+      _extras['ordersByUser'] ?? {},
+    );
+
+    final userOrders = List<dynamic>.from(
+      ordersMap[_user.userName] ?? [],
+    );
+
+    userOrders.add(order.toJson());
+    ordersMap[_user.userName] = userOrders;
+    _extras['ordersByUser'] = ordersMap;
+
+    setExtras(_extras);
 
     notifyListeners();
   }
@@ -524,22 +610,6 @@ import 'package:http/http.dart' as http;
       jsonData.map((item) => ProductDetail.fromJson(item)).toList(),
     );
 
-    // Fetching favorites
-    response = await InternetHandler.getFavorites();
-    jsonData = jsonDecode(response);
-
-    var favList = jsonData.map((item) => Product.fromJson(item)).toList();
-    for (final product in favList) {
-      _favorites[product.productId] = product;
-    }
-
-    if(_extras['users'] == null) {
-      _extras['users'] = [
-        User('admin@chalmers.se', '1234').toJson(),
-      ];
-
-      await InternetHandler.setExtras(_extras);
-    }
 
     notifyListeners();
 
@@ -574,6 +644,15 @@ import 'package:http/http.dart' as http;
 
     response = await InternetHandler.getExtras();
     _extras = jsonDecode(response);
+    loadFavoritesForCurrentUser();
+
+    if(_extras['users'] == null) {
+      _extras['users'] = [
+        User('admin@chalmers.se', '1234').toJson(),
+      ];
+
+      await InternetHandler.setExtras(_extras);
+    }
 
     /* Testcode
 
@@ -590,6 +669,68 @@ import 'package:http/http.dart' as http;
 
      Testcode 
      */
+
+    logout();
+    notifyListeners();
+  }
+
+  void loadFavoritesForCurrentUser() {
+    _favorites.clear();
+
+    if (!isLoggedIn) {
+      notifyListeners();
+      return;
+    }
+
+    final favoritesMap = Map<String, dynamic>.from(
+      _extras['favoritesByUser'] ?? {},
+    );
+
+    final favoriteIds = List<dynamic>.from(
+      favoritesMap[_user.userName] ?? [],
+    );
+
+    for (final id in favoriteIds) {
+      final product = getProduct(id);
+
+      if (product != null) {
+        _favorites[id] = product;
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void saveFavoritesForCurrentUser() {
+    if (!isLoggedIn) return;
+
+    final favoritesMap = Map<String, dynamic>.from(
+      _extras['favoritesByUser'] ?? {},
+    );
+
+    favoritesMap[_user.userName] = _favorites.keys.toList();
+
+    _extras['favoritesByUser'] = favoritesMap;
+
+    setExtras(_extras);
+  }
+
+  List<Product> findProductsByGroup(CategoryGroup group) {
+    return products.where((product) {
+      return group.categories.contains(product.category);
+    }).toList();
+  }
+  Future<void> loadFavorites() async {
+    _favorites.clear();
+
+    var response = await InternetHandler.getFavorites();
+    List<dynamic> jsonData = jsonDecode(response);
+
+    var favList = jsonData.map((item) => Product.fromJson(item)).toList();
+
+    for (final product in favList) {
+      _favorites[product.productId] = product;
+    }
 
     notifyListeners();
   }

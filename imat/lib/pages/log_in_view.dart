@@ -37,8 +37,7 @@ class _LogInViewState extends State<LogInView> {
 
     if (rawUsers == null) {
       setState(() {
-        _errorMessage =
-            'Inga konton finns registrerade ännu.';
+        _errorMessage = 'Inga konton finns registrerade ännu.';
       });
       return;
     }
@@ -133,10 +132,7 @@ class _LogInViewState extends State<LogInView> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 250, 200, 206),
-                      borderRadius:
-                          BorderRadius.circular(
-                        AppTheme.radius,
-                      ),
+                      borderRadius: BorderRadius.circular( AppTheme.radius,                      ),
                       border: Border.all(
                         color: Colors.red,
                         width: 2,
@@ -145,11 +141,9 @@ class _LogInViewState extends State<LogInView> {
                     child: Text(
                       _errorMessage!,
                       textAlign: TextAlign.center,
-                      style:
-                          AppTheme.textFont.copyWith(
+                      style: AppTheme.textFont.copyWith(
                         color: const Color.fromARGB(255, 185, 29, 29),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
                       ),
                     ),
                   ),

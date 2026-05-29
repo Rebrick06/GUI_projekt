@@ -3,6 +3,7 @@ import 'package:imat_app/model/imat/customer.dart';
 import 'package:imat_app/model/imat/user.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/model/wizard_field.dart';
+import 'package:imat_app/pages/main_view.dart';
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:imat_app/widgets/wizard/base_wizard_page.dart';
 import 'package:provider/provider.dart';
@@ -217,8 +218,8 @@ class _SignInViewState extends State<SignInView> {
   }
 
   void _createAccount(ImatDataHandler iMat,) {
-    final email = _controllers[2].text.trim();
 
+    final email = _controllers[2].text.trim();
     final password = _controllers[8].text.trim();
 
     final rawUsers = iMat.getExtras()['users'];
@@ -231,16 +232,27 @@ class _SignInViewState extends State<SignInView> {
       ).toList();
     }
 
-    users.add(
-      User(email, password),
+    final bool userExists = users.any(
+      (User u) => u.userName == email,
     );
 
+    if (userExists) {
+      setState(() {
+        _errorMessage = 'E-postadress har redan ett kopplat konto';
+      });
+      return;
+    }
+
+    final newUser = User(email,password);
+    users.add(newUser);
     iMat.addExtra(
       'users', 
       users.map((u) => u.toJson()).toList(),
     );
 
-    iMat.setCustomer(
+    iMat.login(newUser);
+
+    iMat.saveCustomerForCurrentUser(
       Customer(
         _controllers[0].text.trim(),
         _controllers[1].text.trim(),
@@ -260,7 +272,13 @@ class _SignInViewState extends State<SignInView> {
       ),
     );
 
-    Navigator.pop(context);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainView(),
+      ),
+      (route) => false,
+    );
   }
 
   @override
