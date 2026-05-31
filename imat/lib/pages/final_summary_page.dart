@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/customer.dart';
 import 'package:imat_app/model/imat/shopping_item.dart';
-import 'package:imat_app/model/imat_data_handler.dart'; // ändra vid behov
-import 'package:imat_app/model/imat/order.dart'; // din Order-klass
+import 'package:imat_app/model/imat_data_handler.dart'; 
+import 'package:imat_app/model/imat/order.dart'; 
 
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:imat_app/widgets/base_footer.dart';
-import 'package:imat_app/pages/purchase_confirmation_page.dart'; // ny sida nedan
+import 'package:imat_app/pages/purchase_confirmation_page.dart'; 
 
 class PaymentSummaryPage extends StatefulWidget {
   final Customer customer;
@@ -56,7 +56,6 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
     final double subtotal =
         items.fold<double>(0.0, (sum, it) => sum + it.product.price * it.amount);
 
-    // Anpassa eller hämta från handler vid behov
     const double boxFee = 9.00;
     const double freight = 127.00;
     const double vatRate = 0.0;
@@ -127,8 +126,6 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                             ),
                             onPressed: () {
                               // Exempel: töm korg eller navigera bort
-                              // for (final it in List.of(items)) iMat.shoppingCartRemove(it);
-                              // Navigator.popUntil(context, (r) => r.isFirst);
                             },
                             child: const Text(
                               'Avbryt köp',
@@ -146,7 +143,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
 
                   const SizedBox(width: 24),
 
-                  // Höger
+                  
                   Expanded(
                     flex: 2,
                     child: SingleChildScrollView(

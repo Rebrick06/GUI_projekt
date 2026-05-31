@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/customer.dart';
-import 'package:imat_app/pages/final_summary_page.dart'; // PaymentSummaryPage
+import 'package:imat_app/pages/final_summary_page.dart'; 
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:imat_app/widgets/base_footer.dart';
 class SelectDeliveryTimePage extends StatefulWidget {
-  final Customer customer; // NYTT: ta emot kunddata
+  final Customer customer; 
   const SelectDeliveryTimePage({super.key, required this.customer});
   @override
   State<SelectDeliveryTimePage> createState() => _SelectDeliveryTimePageState();
@@ -121,7 +121,6 @@ class _SelectDeliveryTimePageState extends State<SelectDeliveryTimePage> {
                         ),
                         onPressed: () {
                           final window = _selectedWindowAsText();
-                          // Tillåt navigation även om ingen tid är vald? Här kräver vi val.
                           if (window == null) return;
                           Navigator.push(
                             context,

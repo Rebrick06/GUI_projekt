@@ -25,8 +25,8 @@ class MainCheckout extends StatelessWidget {
       (sum, it) => sum + it.product.price * it.amount,
     );
 
-    const double boxFee = 0.0; // lägg till i handlern om du vill använda
-    const double vatRate = 0.0; // t.ex. 0.25 om du vill räkna moms
+    const double boxFee = 0.0; 
+    const double vatRate = 0.0; 
     final double vat = subtotal * vatRate;
     final double total = subtotal + boxFee + vat;
 
@@ -34,7 +34,7 @@ class MainCheckout extends StatelessWidget {
     final Map<String, List<ShoppingItem>> grouped = {};
     for (final it in items) {
       final String raw =
-          (it.product.category ?? '').toString().trim(); // ändra fält vid behov
+          (it.product.category ?? '').toString().trim(); 
       final String key = raw.isEmpty ? 'Övrigt' : raw;
       grouped.putIfAbsent(key, () => []).add(it);
     }
@@ -54,7 +54,7 @@ class MainCheckout extends StatelessWidget {
       'DRYCK',
       'SNACKS',
       'Övrigt',
-      'MEAT', // mappar i prettyCategory
+      'MEAT', 
       'FISH',
       'FLOUR_SUGAR_SALT',
     ];
@@ -72,7 +72,7 @@ class MainCheckout extends StatelessWidget {
 
     return Scaffold(
       appBar: const BaseAppBar(),
-      backgroundColor: const Color(0xFFEFEFEF),
+      backgroundColor: AppTheme.whiteColor,
       body: Column(
         children: [
           Expanded(
@@ -114,7 +114,7 @@ class MainCheckout extends StatelessWidget {
                         else
                           ...sortedCategories.expand((categoryRaw) sync* {
                             final catItems = grouped[categoryRaw]!;
-                            // Kategorirubrik (snyggad)
+      
                             yield Padding(
                               padding: const EdgeInsets.only(top: 24, bottom: 12),
                               child: Text(
@@ -415,7 +415,6 @@ String prettyCategory(String raw) {
   };
   if (special.containsKey(key)) return special[key]!;
 
-  // 3) Ersätt understreck och versalisera snyggt
   final spaced = key.replaceAll('_', ' ').trim();
   if (spaced.isEmpty) return 'Övrigt';
 
