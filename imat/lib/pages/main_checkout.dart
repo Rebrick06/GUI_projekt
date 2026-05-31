@@ -243,7 +243,7 @@ class MainCheckout extends StatelessWidget {
                             height: 60,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.mainColor,
+                                backgroundColor: AppTheme.darkColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 ),
@@ -259,7 +259,7 @@ class MainCheckout extends StatelessWidget {
                                 'Töm varukorgen',
                                 style: TextStyle(
                                   fontSize: 24,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -281,7 +281,7 @@ class MainCheckout extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppTheme.brightColor,
                         borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: AppTheme.mainColor),
+                        //border: Border.all(color: AppTheme.mainColor),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
