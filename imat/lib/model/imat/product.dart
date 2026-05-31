@@ -48,7 +48,7 @@ class Product {
     : productId = json[_idKey],
       category = _category(json[_catKey]),
       name = json[_nameKey],
-      isEcological = json[_ecoKey],
+      isEcological = json[_ecoKey] ?? false,
       price = json[_priceKey],
       unit = json[_unitKey],
       imageName = json[_imageKey];
@@ -66,7 +66,7 @@ class Product {
   static const _idKey = 'productId';
   static const _catKey = 'category';
   static const _nameKey = 'name';
-  static const _ecoKey = 'ecological';
+  static const _ecoKey = 'isEcological';
   static const _priceKey = 'price';
   static const _unitKey = 'unit';
   static const _imageKey = 'imageName';

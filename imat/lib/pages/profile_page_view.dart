@@ -115,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final iMat = context.watch<ImatDataHandler>();
     final customer = iMat.getCustomerForCurrentUser();
-    final orders = iMat.orders;
+    final orders = iMat.getOrderForCurrentUser();
 
     if (!_initialized) {
       _initialize(customer);

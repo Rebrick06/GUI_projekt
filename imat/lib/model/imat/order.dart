@@ -12,7 +12,11 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) {
     int orderNumber = json[_orderNumber] as int;
     int timeStamp = json[_date] as int;
-    List jsonItems = json[_items];
+    dynamic jsonItems = json[_items];
+
+    if (jsonItems is String) {
+      jsonItems = jsonDecode(jsonItems);
+    }
 
     List<ShoppingItem> items = [];
 
@@ -30,7 +34,9 @@ class Order {
   Map<String, dynamic> toJson() => {
     _orderNumber: orderNumber,
     _date: date.millisecondsSinceEpoch,
-    _items: jsonEncode(items.map((item) => item.toJson()).toList()),
+    _items: items
+    .map((item) => item.toJson())
+    .toList(),
   };
 
   double getTotal() {

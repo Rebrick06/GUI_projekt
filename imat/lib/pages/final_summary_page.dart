@@ -220,11 +220,10 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                 if (!_formKey.currentState!.validate()) return;
 
                                 // Skapa Order
-                                final order = _createOrder(items);
+                                final order = _createOrder(items); 
 
-                                // (Valfritt) rensa korg eller spara order någonstans globalt
-                                // iMat.saveOrder(order); // om du har en sådan metod
-                                // for (final it in List.of(items)) iMat.shoppingCartRemove(it);
+                                final iMatWrite = context.read<ImatDataHandler>();
+                                iMatWrite.saveOrderForCurrentUser(order);
 
                                 Navigator.pushReplacement(
                                   context,
