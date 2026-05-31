@@ -152,7 +152,7 @@ class ShoppingPanel extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
-                                        '${item.product.price.toStringAsFixed(2)} kr/${item.product.unit}',
+                                        '${item.product.price.toStringAsFixed(2)} ${item.product.unit}',
                                         style: AppTheme.textFont.copyWith(
                                           color: Colors.black54,
                                           fontSize: 14,
