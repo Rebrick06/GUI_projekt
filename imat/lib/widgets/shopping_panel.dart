@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/shopping_item.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/pages/main_checkout.dart';
 import 'package:provider/provider.dart';
 
 class ShoppingPanel extends StatelessWidget {
@@ -247,7 +248,10 @@ class ShoppingPanel extends StatelessWidget {
                         items.isEmpty
                             ? null
                             : () {
-                              // TODO: navigate to checkout
+                                Navigator.push(
+                                context, 
+                                MaterialPageRoute(builder: (context) => MainCheckout()),
+                              );
                             },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.darkColor,

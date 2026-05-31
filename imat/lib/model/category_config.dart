@@ -28,7 +28,7 @@ class CategoryConfig {
 
     CategoryGroup(
       id: 'meat_fish',
-      displayName: 'Kött & Fisk',
+      displayName: 'Kött och Fisk',
       categories: [
         ProductCategory.MEAT,
         ProductCategory.FISH,
