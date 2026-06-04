@@ -734,4 +734,44 @@ import 'package:http/http.dart' as http;
 
     notifyListeners();
   }
-}
+
+  CreditCard? getCreditCardForCurrentUser() {
+    if (!isLoggedIn) return null;
+
+    final rawCards = _extras['creditCards'];
+
+    if (rawCards == null) {
+      return null;
+    }
+
+    final cards = Map<String, dynamic>.from(rawCards);
+
+    if (!cards.containsKey(_user.userName)) {
+      return null;
+    }
+
+    return CreditCard.fromJson(
+      Map<String, dynamic>.from(
+        cards[_user.userName],
+      ),
+    );
+  }
+
+  void saveCreditCardForCurrentUser(
+      CreditCard card,
+    ) async {
+      if (!isLoggedIn) return;
+
+      final cards = Map<String, dynamic>.from(
+        _extras['creditCards'] ?? {},
+      );
+
+      cards[_user.userName] = card.toJson();
+
+      _extras['creditCards'] = cards;
+
+      await InternetHandler.setExtras(_extras);
+
+      notifyListeners();
+    }
+  } 

@@ -5,6 +5,7 @@ import 'package:imat_app/model/imat/order.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:imat_app/model/imat/credit_card.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,6 +23,12 @@ class _ProfilePageState extends State<ProfilePage> {
   late TextEditingController _addressController;
   late TextEditingController _postCodeController;
   late TextEditingController _postAddressController;
+  late TextEditingController _cardTypeController;
+  late TextEditingController _cardHolderController;
+  late TextEditingController _cardNumberController;
+  late TextEditingController _validMonthController;
+  late TextEditingController _validYearController;
+  late TextEditingController _cvvController;
 
   bool _initialized = false;
 
@@ -35,6 +42,12 @@ class _ProfilePageState extends State<ProfilePage> {
     _addressController.dispose();
     _postCodeController.dispose();
     _postAddressController.dispose();
+    _cardTypeController.dispose();
+    _cardHolderController.dispose();
+    _cardNumberController.dispose();
+    _validMonthController.dispose();
+    _validYearController.dispose();
+    _cvvController.dispose();
     super.dispose();
   }
 
@@ -63,6 +76,38 @@ class _ProfilePageState extends State<ProfilePage> {
     _postAddressController =
         TextEditingController(text: customer.postAddress);
 
+    final card = context.read<ImatDataHandler>().getCreditCardForCurrentUser();
+
+    _cardTypeController =
+        TextEditingController(
+          text: card?.cardType ?? '',
+        );
+
+    _cardHolderController =
+        TextEditingController(
+          text: card?.holdersName ?? '',
+        );
+
+    _cardNumberController =
+        TextEditingController(
+          text: card?.cardNumber ?? '',
+        );
+
+    _validMonthController =
+        TextEditingController(
+          text: card?.validMonth.toString() ?? '',
+        );
+
+    _validYearController =
+        TextEditingController(
+          text: card?.validYear.toString() ?? '',
+        );
+
+    _cvvController =
+        TextEditingController(
+          text: card?.verificationCode.toString() ?? '',
+        );
+
     _initialized = true;
   }
 
@@ -83,6 +128,25 @@ class _ProfilePageState extends State<ProfilePage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Profil uppdaterad!'),
+      ),
+    );
+  }
+
+  void _saveCard(ImatDataHandler iMat) {
+    final card = CreditCard(
+      _cardTypeController.text,
+      _cardHolderController.text,
+      int.tryParse(_validMonthController.text) ?? 1,
+      int.tryParse(_validYearController.text) ?? 25,
+      _cardNumberController.text,
+      int.tryParse(_cvvController.text) ?? 0,
+    );
+
+    iMat.saveCreditCardForCurrentUser(card);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Kortinformation sparad'),
       ),
     );
   }
@@ -289,6 +353,83 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
+
+                const SizedBox(height: 24),
+
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(
+                      AppTheme.radius,
+                    ),
+                  ),
+                  child: ExpansionTile(
+                    leading: const Icon(Icons.credit_card),
+                    title: Text(
+                      'Kortinformation',
+                      style: AppTheme.textFont.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    childrenPadding: const EdgeInsets.all(16),
+                    children: [
+                      _buildTextField(
+                        label: 'Kortinehavare',
+                        controller: _cardHolderController,
+                        icon: Icons.person,
+                      ),
+
+                      _buildTextField(
+                        label: 'Kortnummer',
+                        controller: _cardNumberController,
+                        icon: Icons.numbers,
+                      ),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildTextField(
+                              label: 'Månad',
+                              controller: _validMonthController,
+                            ),
+                          ),
+
+                          const SizedBox(width: 16),
+
+                          Expanded(
+                            child: _buildTextField(
+                              label: 'År',
+                              controller: _validYearController,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      _buildTextField(
+                        label: 'CVC',
+                        controller: _cvvController,
+                        icon: Icons.lock,
+                      ),
+
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.darkColor,
+                          ),
+                          onPressed: () => _saveCard(iMat),
+                          child: const Text(
+                            'Spara kort',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
                 const SizedBox(height: 40),
 
                 Text(
