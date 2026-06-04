@@ -126,11 +126,24 @@ class ImatDataHandler extends ChangeNotifier {
     notifyListeners();
   }
 
-  CreditCard getCreditCard() => _creditCard;
+  CreditCard getCreditCard() {
+    final userCard = getCreditCardForCurrentUser();
+
+    if (userCard != null) {
+      return userCard;
+    }
+
+    return _creditCard;
+  }
 
   // Sparar information till servern och
   // meddelar gränssnittet att data ändrats
   void setCreditCard(CreditCard card) async {
+    if (isLoggedIn) {
+      saveCreditCardForCurrentUser(card);
+      return;
+    }
+    
     _creditCard.cardType = card.cardType;
     _creditCard.holdersName = card.holdersName;
     _creditCard.validMonth = card.validMonth;

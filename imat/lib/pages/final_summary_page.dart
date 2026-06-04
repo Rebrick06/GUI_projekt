@@ -30,6 +30,7 @@ class PaymentSummaryPage extends StatefulWidget {
 class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
   // UI-state för bankkort-dropdown
   bool _cardOpen = false;
+  bool _cardDataLoaded = false;
 
   // Kortformulär
   final _formKey = GlobalKey<FormState>();
@@ -45,6 +46,27 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
     _cvvCtrl.dispose();
     _nameCtrl.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_cardDataLoaded) return;
+
+    final iMat = context.read<ImatDataHandler>();
+    final card = iMat.getCreditCard();
+
+    _cardNumberCtrl.text = card.cardNumber;
+    _cvvCtrl.text = card.verificationCode.toString();
+    _nameCtrl.text = card.holdersName;
+
+    final month = card.validMonth.toString().padLeft(2, '0');
+    final year = card.validYear.toString().padLeft(2, '0');
+
+    _expiryCtrl.text = '$month/$year';
+
+    _cardDataLoaded = true;
   }
 
   @override
