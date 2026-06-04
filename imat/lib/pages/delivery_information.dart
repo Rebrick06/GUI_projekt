@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/customer.dart';
+import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/pages/delivery_time.dart';
 import 'package:imat_app/widgets/base_app_bar.dart';
 import 'package:imat_app/widgets/base_footer.dart';
+import 'package:provider/provider.dart';
+
 class DeliveryInfoPage extends StatefulWidget {
   const DeliveryInfoPage({super.key});
   @override
   State<DeliveryInfoPage> createState() => _DeliveryInfoPageState();
 }
+
 class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
   int _step = 0;
-  // Controllers
+
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
@@ -20,8 +24,25 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
   final addressCtrl = TextEditingController();
   final postCodeCtrl = TextEditingController();
   final postCityCtrl = TextEditingController();
-  // Valideringsnycklar per steg
+
   final _formKeys = List.generate(3, (_) => GlobalKey<FormState>());
+
+  @override
+  void initState() {
+    super.initState();
+    // Fyll i sparad kunddata för inloggad användare
+    final customer =
+        context.read<ImatDataHandler>().getCustomerForCurrentUser();
+    firstNameCtrl.text = customer.firstName;
+    lastNameCtrl.text = customer.lastName;
+    emailCtrl.text = customer.email;
+    phoneCtrl.text = customer.phoneNumber;
+    mobileCtrl.text = customer.mobilePhoneNumber;
+    addressCtrl.text = customer.address;
+    postCodeCtrl.text = customer.postCode;
+    postCityCtrl.text = customer.postAddress;
+  }
+
   @override
   void dispose() {
     firstNameCtrl.dispose();
@@ -34,6 +55,7 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
     postCityCtrl.dispose();
     super.dispose();
   }
+
   void _next() {
     final form = _formKeys[_step].currentState!;
     if (!form.validate()) return;
@@ -50,6 +72,8 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
         postCodeCtrl.text.trim(),
         postCityCtrl.text.trim(),
       );
+      // Spara uppdaterad kunddata för inloggad användare
+      context.read<ImatDataHandler>().saveCustomerForCurrentUser(customer);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -58,14 +82,16 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
       );
     }
   }
+
   void _back() {
     if (_step > 0) setState(() => _step--);
   }
+
   @override
   Widget build(BuildContext context) {
-    // Responsiv maxbredd
     final screenW = MediaQuery.of(context).size.width;
     final maxW = screenW >= 1000 ? 760.0 : 560.0;
+
     return Scaffold(
       appBar: const BaseAppBar(),
       backgroundColor: AppTheme.whiteColor,
@@ -117,8 +143,9 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                                       vertical: AppTheme.paddingMedium,
                                     ),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(AppTheme.radius),
+                                      borderRadius: BorderRadius.circular(
+                                        AppTheme.radius,
+                                      ),
                                     ),
                                   ),
                                   onPressed: _back,
@@ -143,8 +170,9 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
                                     vertical: AppTheme.paddingMedium,
                                   ),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(AppTheme.radius),
+                                    borderRadius: BorderRadius.circular(
+                                      AppTheme.radius,
+                                    ),
                                   ),
                                 ),
                                 onPressed: _next,
@@ -174,7 +202,7 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
       ),
     );
   }
-  // Slides
+
   Widget _buildStep(int step) {
     switch (step) {
       case 0:
@@ -267,9 +295,10 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
         );
     }
   }
-  // Validering
+
   String? _req(String? v) =>
       (v == null || v.trim().isEmpty) ? 'Detta fält är obligatoriskt' : null;
+
   String? _email(String? v) {
     final s = v?.trim() ?? '';
     if (s.isEmpty) return 'Detta fält är obligatoriskt';
@@ -277,11 +306,12 @@ class _DeliveryInfoPageState extends State<DeliveryInfoPage> {
     return ok ? null : 'Ogiltig e‑postadress';
   }
 }
-// Kompakt stegbar
+
 class _CompactStepBar extends StatelessWidget {
   final int current;
   final int total;
   const _CompactStepBar({required this.current, required this.total});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -301,27 +331,31 @@ class _CompactStepBar extends StatelessWidget {
     );
   }
 }
-// Layoutcontainer för jämn spacing
+
 class _FieldGroup extends StatelessWidget {
   final List<Widget> children;
   const _FieldGroup({required this.children});
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       key: ValueKey(children.length),
       padding: EdgeInsets.zero,
       itemCount: children.length,
-      separatorBuilder: (_, __) => const SizedBox(height: AppTheme.paddingSmall),
+      separatorBuilder:
+          (_, __) => const SizedBox(height: AppTheme.paddingSmall),
       itemBuilder: (_, i) => children[i],
     );
   }
 }
+
 class _TextField extends StatelessWidget {
   final String label;
   final String hint;
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+
   const _TextField({
     required this.label,
     required this.hint,
@@ -329,6 +363,7 @@ class _TextField extends StatelessWidget {
     this.keyboardType,
     this.validator,
   });
+
   @override
   Widget build(BuildContext context) {
     return Column(
