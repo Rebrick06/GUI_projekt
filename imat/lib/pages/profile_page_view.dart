@@ -406,7 +406,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
 
                       _buildTextField(
-                        label: 'CVC',
+                        label: 'CVV',
                         controller: _cvvController,
                         icon: Icons.lock,
                       ),
